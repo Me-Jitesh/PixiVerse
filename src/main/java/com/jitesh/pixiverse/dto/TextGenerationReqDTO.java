@@ -6,5 +6,5 @@ import lombok.Data;
 public class TextGenerationReqDTO {
 
     private String prompt;
-    private  String style;
+    private String style;
 }
