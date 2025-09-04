@@ -33,6 +33,7 @@ public interface StabilityAIClient {
             @RequestHeader("Authorization") String authorizationHeader,
             @PathVariable("engine_id") String engineId,
             @RequestPart("init_image") MultipartFile initImage,
+            @RequestPart("text_prompts[0][text]") String textPrompt,
             @RequestPart("style_preset") String stylePreset
     );
 }

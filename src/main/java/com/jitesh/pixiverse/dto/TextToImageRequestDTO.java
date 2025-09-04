@@ -1,11 +1,12 @@
 package com.jitesh.pixiverse.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class TextToImageRequestDTO {
 
     private List<TextPrompt> text_prompts;
@@ -20,9 +21,11 @@ public class TextToImageRequestDTO {
         this.style_preset = style;
     }
 
-    @Data
-    @AllArgsConstructor
     public static class TextPrompt {
         private String text;
+
+        public TextPrompt(String text) {
+            this.text = text;
+        }
     }
 }
