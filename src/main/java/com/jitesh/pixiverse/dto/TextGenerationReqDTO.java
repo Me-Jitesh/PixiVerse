@@ -11,8 +11,4 @@ public class TextGenerationReqDTO {
 
     private String prompt;
     private String style;
-
-
-
-
 }

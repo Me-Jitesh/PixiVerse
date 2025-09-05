@@ -27,6 +27,7 @@ public class GenerationController {
     public ResponseEntity<byte[]> generateGhibliArt(@RequestParam("image") MultipartFile image, @RequestParam("prompt") String prompt) {
         try {
             byte[] imgBytes = ghibliArtService.createGhibliArt(image, prompt);
+            System.out.println("Generated");
             return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(imgBytes);
         } catch (Exception e) {
             e.printStackTrace();
