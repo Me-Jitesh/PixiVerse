@@ -2,10 +2,13 @@ package com.jitesh.pixiverse.services;
 
 import com.jitesh.pixiverse.clients.StabilityAIClient;
 import com.jitesh.pixiverse.dto.TextToImageRequestDTO;
+import com.jitesh.pixiverse.utilities.ImagePreprocessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 
 @Service
 public class GhibliArtService {
@@ -26,15 +29,28 @@ public class GhibliArtService {
     }
 
     public byte[] createGhibliArt(MultipartFile image, String prompt) {
-        String finalPrompt = prompt + promptEnhance;
+        try {
+            // Save multipart to temp file
+            File tempFile = File.createTempFile("upload-", ".png");
+            image.transferTo(tempFile);
 
-        return stabilityAIClient.generateImageFromImage(
-                "Bearer " + API_KEY,
-                engineId,
-                image,
-                finalPrompt,
-                preset
-        );
+            // Preprocess to nearest allowed dimension
+            File processed = ImagePreprocessor.prepareImage(tempFile);
+
+            // Final enhanced prompt
+            String finalPrompt = prompt + promptEnhance;
+
+            // Call Stability API
+            return stabilityAIClient.generateImageFromImage(
+                    "Bearer " + API_KEY,
+                    engineId,
+                    processed,
+                    finalPrompt,
+                    preset
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate Ghibli art", e);
+        }
     }
 
     public byte[] createGhibliArtFromText(String prompt, String style) {

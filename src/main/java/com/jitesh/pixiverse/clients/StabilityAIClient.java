@@ -4,7 +4,8 @@ import com.jitesh.pixiverse.dto.TextToImageRequestDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 
 @FeignClient(
         name = "StabilityClient",
@@ -32,7 +33,7 @@ public interface StabilityAIClient {
     byte[] generateImageFromImage(
             @RequestHeader("Authorization") String authorizationHeader,
             @PathVariable("engine_id") String engineId,
-            @RequestPart("init_image") MultipartFile initImage,
+            @RequestPart("init_image") File initImage,
             @RequestPart("text_prompts[0][text]") String textPrompt,
             @RequestPart("style_preset") String stylePreset
     );

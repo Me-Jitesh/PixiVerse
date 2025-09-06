@@ -24,16 +24,19 @@ public class GenerationController {
     }
 
     @PostMapping(value = "/generate", produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<byte[]> generateGhibliArt(@RequestParam("image") MultipartFile image, @RequestParam("prompt") String prompt) {
+    public ResponseEntity<byte[]> generateGhibliArt(@RequestParam("image") MultipartFile image,
+                                                    @RequestParam("prompt") String prompt) {
         try {
             byte[] imgBytes = ghibliArtService.createGhibliArt(image, prompt);
-            System.out.println("Generated");
-            return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(imgBytes);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_PNG)
+                    .body(imgBytes);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }
+
 
     @PostMapping(value = "/generate/text", produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> generateGhibliArtFromText(@RequestBody TextGenerationReqDTO req) {
